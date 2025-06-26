@@ -1,0 +1,20 @@
+{% extends 'books/base.html' %}
+{% block content %}
+<div class="container mt-4">
+    <h3>My Favorite Books</h3>
+    <div class="row">
+        {% for book in books %}
+        <div class="col-md-4 mb-3">
+            <div class="card">
+                <img src="{{ book.cover_url }}" class="card-img-top" style="height: 300px; object-fit: cover;">
+                <div class="card-body">
+                    <h5 class="card-title">{{ book.title }}</h5>
+                    <p>{{ book.author }}</p>
+                    <a href="{% url 'read_book' book.book_id %}" class="btn btn-success">📖 Read</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

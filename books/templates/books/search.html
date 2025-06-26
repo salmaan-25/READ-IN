@@ -1,0 +1,55 @@
+{% extends 'books/base.html' %}
+{% load static %}
+{% load custom_filters %}
+
+{% block content %}
+<div class="container mt-5">
+  <div class="text-center mb-4">
+    <h1>READ-IN</h1>
+    <p><em>~~ a perfect site for bibliophiles</em></p>
+    <h2 class="mb-4">📚 Search Free Books</h2>
+  </div>
+
+  <form method="get" class="input-group mb-4">
+    <input
+      type="text"
+      name="query"
+      class="form-control"
+      placeholder="Search classics..."
+      value="{{ query }}"
+    />
+    <button class="btn btn-primary" style="background-color: rgb(31, 29, 29);">Search</button>
+  </form>
+
+  <div class="row">
+    {% for book in results %}
+    <div class="col-md-4 mb-4">
+      <div class="card h-100 shadow">
+        {% with book.formats|get_format:"image/jpeg" as book_cover %}
+          {% if book_cover %}
+            <img src="{{ book_cover }}" class="card-img-top" style="height:300px; object-fit:cover;">
+          {% endif %}
+        {% endwith %}
+
+        <div class="card-body">
+          <h5 class="card-title">{{ book.title }}</h5>
+          <p class="card-text">
+            <strong>By:</strong> {{ book.authors.0.name }}
+          </p>
+        </div>
+        <div class="card-footer text-center">
+          <a href="{% url 'read_book' book.id %}" class="btn btn-success w-100">Start reading 📖</a>
+        </div>
+      </div>
+    </div>
+    {% empty %}
+    <p style="text-align: center;">No books found. Try another title.</p>
+    {% endfor %}
+  </div>
+
+</div>
+<footer style="text-align: center;">
+    ©copyrights 2025
+     All rights reserved
+  </footer>
+{% endblock %}
